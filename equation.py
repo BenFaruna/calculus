@@ -40,6 +40,11 @@ class Term:
 
         return Term(new_coefficient, new_power)
 
+    def derivative(self):
+        new_coefficient = self.power * self.coefficient
+        new_power = self.power - 1
+        return Term(new_coefficient, new_power)
+
 
 class Equation:
     def __init__(self):
@@ -53,33 +58,22 @@ class Equation:
             else:
                 equation += f"+{term.coefficient}x" + f"{term.power}".translate(superscript)
 
-        return equation
+        return "y = " + equation
 
-    def add_term(self, term):
-        self.equation.append(term)
+    def add_term(self, new_term):
+        index = 0
+        for term in self.equation:
+            if term.power == new_term.power:
+                self.equation[index] = term + new_term
+                return
 
+            index += 1
 
-# term1 = Term(-5, 10)
-# term2 = Term(10, 3)
-# term3 = Term(10, 10)
-# term4 = Term(-20, 3)
-#
-# new_term = term2 + term1
-# print(new_term)
-#
-# print(term1, term3)
-# new_term2 = term1 + term3
-# print(new_term2)
-#
-# new_term3 = term1 - term3
-# print(new_term3)
-#
-# print(term2, term4)
-# new_term4 = term2 + term4
-# print(new_term4)
-#
-# new_term4 = term2 - term4
-# print(new_term4)
-#
-# new_term5 = term4 - term2
-# print(new_term5)
+        self.equation.append(new_term)
+
+    def derivative(self):
+        result = Equation()
+        for term in self.equation:
+            result.equation.append(term.derivative())
+
+        return result
