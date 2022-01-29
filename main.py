@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 superscript = str.maketrans("0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻")
 
 
@@ -10,7 +8,7 @@ class Term:
 
     def __repr__(self):
         if type(self.coefficient) == float:
-            numerator, denominator  = Decimal(self.coefficient).as_integer_ratio()
+            numerator, denominator = self.coefficient.as_integer_ratio()
             return f"{numerator}/{denominator}x" + f"{self.power}".translate(superscript)
         return f"{self.coefficient}x" + f"{self.power}".translate(superscript)
 
